@@ -7,8 +7,11 @@ MarketE::MarketE(int id, Exchange* ex, double spread, uint64_t qty)
 
 void MarketE::on_message(const Message& m) {
     if (m.type == Message::Fill) {
-        if (m.order_id == bid_id || m.order_id == ask_id) {
+        if (m.order_id == bid_id) {
+            pnl -= m.px * m.qty;
             bid_id = 0;
+        } else if (m.order_id == ask_id) {
+            pnl += m.px * m.qty;
             ask_id = 0;
         }
     }
@@ -16,11 +19,9 @@ void MarketE::on_message(const Message& m) {
 
 void MarketE::step(uint64_t ct) {
     OrderBook& book = exch->get_book();
-    double bb = book.best_bid();
-    double ba = book.best_ask();
-    
-    if (bb > 0 && ba > 0) {
-        mid = (bb + ba) / 2.0;
+    double m = book.mid();
+    if (m > 0) {
+        mid = m;
     }
     
     if (bid_id == 0 && ask_id == 0) {

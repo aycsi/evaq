@@ -9,18 +9,25 @@ InformedAg::InformedAg(int id, Exchange* ex, double alpha, uint64_t qty)
 }
 
 void InformedAg::on_message(const Message& m) {
+    if (m.type == Message::Fill) {
+        if (dir > 0) {
+            pnl -= m.px * m.qty;
+        } else {
+            pnl += m.px * m.qty;
+        }
+    }
 }
 
 void InformedAg::step(uint64_t ct) {
     if (ct >= next_time) {
         OrderBook& book = exch->get_book();
-        double mid = (book.best_bid() + book.best_ask()) / 2.0;
+        double m = book.mid();
         
-        if (mid > 0) {
+        if (m > 0) {
             Order o;
             o.side = (dir > 0) ? Side::Buy : Side::Sell;
             o.type = OrderType::Limit;
-            o.px = mid + dir * alph;
+            o.px = m + dir * alph;
             o.qty = sz;
             o.ts = ct;
             o.agent_id = id;

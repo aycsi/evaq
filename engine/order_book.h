@@ -41,8 +41,10 @@ public:
     void add(Order o);
     std::vector<Fill> match(Order o);
     bool cancel(uint64_t order_id);
+    bool empty() const;
     double best_bid() const;
     double best_ask() const;
+    double mid() const;
     double spread() const;
     uint64_t bid_qty() const;
     uint64_t ask_qty() const;

@@ -8,6 +8,9 @@ NoiseAg::NoiseAg(int id, Exchange* ex, double lambda, uint64_t qty)
 }
 
 void NoiseAg::on_message(const Message& m) {
+    if (m.type == Message::Fill) {
+        pnl -= m.px * m.qty;
+    }
 }
 
 void NoiseAg::step(uint64_t ct) {

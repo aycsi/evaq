@@ -92,12 +92,25 @@ bool OrderBook::cancel(uint64_t order_id) {
     return true;
 }
 
+bool OrderBook::empty() const {
+    return bids.empty() && asks.empty();
+}
+
 double OrderBook::best_bid() const {
     return bids.empty() ? 0.0 : bids.begin()->first;
 }
 
 double OrderBook::best_ask() const {
     return asks.empty() ? 0.0 : asks.begin()->first;
+}
+
+double OrderBook::mid() const {
+    double bb = best_bid();
+    double ba = best_ask();
+    if (bb > 0 && ba > 0) {
+        return (bb + ba) / 2.0;
+    }
+    return 0.0;
 }
 
 double OrderBook::spread() const {

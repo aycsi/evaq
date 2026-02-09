@@ -23,3 +23,12 @@ void Simulator::run(uint64_t end_time) {
         current = next_step;
     }
 }
+
+double Simulator::get_agent_pnl(int agent_id) const {
+    for (const auto& agent : agents) {
+        if (agent->get_id() == agent_id) {
+            return agent->get_pnl();
+        }
+    }
+    return 0.0;
+}

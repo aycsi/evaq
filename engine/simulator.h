@@ -15,6 +15,7 @@ public:
     uint64_t get_time() const { return eng.get_time(); }
     Exchange& get_exchange() { return exch; }
     EventEngine& get_engine() { return eng; }
+    double get_agent_pnl(int agent_id) const;
     
 private:
     EventEngine eng;

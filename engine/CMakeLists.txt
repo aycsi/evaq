@@ -6,6 +6,7 @@ add_library(engine
     noise_ag.cpp
     informed_ag.cpp
     simulator.cpp
+    logger.cpp
 )
 
-target_include_directories(engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}) 

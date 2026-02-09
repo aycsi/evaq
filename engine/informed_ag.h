@@ -2,6 +2,7 @@
 
 #include "agent.h"
 #include "exchange.h"
+#include "order_book.h"
 #include <random>
 
 class InformedAg : public Agent {
@@ -17,4 +18,6 @@ private:
     std::mt19937 gen;
     int dir = 0;
     uint64_t next_time = 0;
+    uint64_t pending_order = 0;
+    Side pending_side = Side::Buy;
 };

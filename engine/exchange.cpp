@@ -19,6 +19,12 @@ void Exchange::cancel_order(uint64_t order_id) {
 
 void Exchange::process_fills(const std::vector<Fill>& fills) {
     for (const auto& f : fills) {
+        volume_traded += f.qty;
+        
+        if (logger) {
+            logger->log_trade(f);
+        }
+        
         Message msg;
         msg.type = Message::Fill;
         msg.order_id = f.order_id;

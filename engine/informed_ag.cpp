@@ -9,12 +9,13 @@ InformedAg::InformedAg(int id, Exchange* ex, double alpha, uint64_t qty)
 }
 
 void InformedAg::on_message(const Message& m) {
-    if (m.type == Message::Fill) {
-        if (dir > 0) {
+    if (m.type == Message::Fill && m.order_id == pending_order) {
+        if (pending_side == Side::Buy) {
             pnl -= m.px * m.qty;
         } else {
             pnl += m.px * m.qty;
         }
+        pending_order = 0;
     }
 }
 
@@ -31,7 +32,8 @@ void InformedAg::step(uint64_t ct) {
             o.qty = sz;
             o.ts = ct;
             o.agent_id = id;
-            exch->submit_order(o);
+            pending_order = exch->submit_order(o);
+            pending_side = o.side;
             
             next_time = ct + 5000;
             dir *= -1;

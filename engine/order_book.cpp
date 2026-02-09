@@ -100,6 +100,15 @@ double OrderBook::best_ask() const {
     return asks.empty() ? 0.0 : asks.begin()->first;
 }
 
+double OrderBook::spread() const {
+    double bb = best_bid();
+    double ba = best_ask();
+    if (bb > 0 && ba > 0) {
+        return ba - bb;
+    }
+    return 0.0;
+}
+
 uint64_t OrderBook::bid_qty() const {
     return bids.empty() ? 0 : bids.begin()->second.total_qty;
 }

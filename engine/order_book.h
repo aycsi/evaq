@@ -43,6 +43,7 @@ public:
     bool cancel(uint64_t order_id);
     double best_bid() const;
     double best_ask() const;
+    double spread() const;
     uint64_t bid_qty() const;
     uint64_t ask_qty() const;
     

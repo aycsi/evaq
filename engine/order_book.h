@@ -46,6 +46,7 @@ public:
     double spread() const;
     uint64_t bid_qty() const;
     uint64_t ask_qty() const;
+    uint64_t depth(Side s, int levels) const;
     
 private:
     std::map<double, PriceLevel, std::greater<double>> bids;

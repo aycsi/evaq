@@ -117,6 +117,17 @@ uint64_t OrderBook::ask_qty() const {
     return asks.empty() ? 0 : asks.begin()->second.total_qty;
 }
 
+uint64_t OrderBook::depth(Side s, int levels) const {
+    const auto& book = (s == Side::Buy) ? bids : asks;
+    uint64_t total = 0;
+    int count = 0;
+    for (const auto& [px, lvl] : book) {
+        total += lvl.total_qty;
+        if (++count >= levels) break;
+    }
+    return total;
+}
+
 PriceLevel& OrderBook::get_level(Side s, double px) {
     auto& book = (s == Side::Buy) ? bids : asks;
     return book[px];

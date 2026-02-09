@@ -15,8 +15,10 @@ struct Event {
 
 class EventEngine {
 public:
+    EventEngine(uint64_t seed = 0);
     void schedule(Event e);
     void run(uint64_t end_time);
+    uint64_t get_time() const { return ct; }
     
 private:
     std::priority_queue<Event, std::vector<Event>, std::greater<Event>> pq;

@@ -1,5 +1,8 @@
 #include "event_engine.h"
 
+EventEngine::EventEngine(uint64_t seed) : ct(0) {
+}
+
 void EventEngine::schedule(Event e) {
     pq.push(e);
 }

@@ -37,14 +37,23 @@ std::vector<Fill> OrderBook::match(Order o) {
             Order& opp = lvl.orders.front();
             uint64_t fill_qty = std::min(remaining, opp.qty - opp.filled);
             
-            Fill f;
-            f.order_id = opp.id;
-            f.px = opp_px;
-            f.qty = fill_qty;
-            f.ts = o.ts;
-            f.buyer_id = (o.side == Side::Buy) ? o.agent_id : opp.agent_id;
-            f.seller_id = (o.side == Side::Buy) ? opp.agent_id : o.agent_id;
-            fills.push_back(f);
+            Fill f_opp;
+            f_opp.order_id = opp.id;
+            f_opp.px = opp_px;
+            f_opp.qty = fill_qty;
+            f_opp.ts = o.ts;
+            f_opp.buyer_id = (o.side == Side::Buy) ? o.agent_id : opp.agent_id;
+            f_opp.seller_id = (o.side == Side::Buy) ? opp.agent_id : o.agent_id;
+            fills.push_back(f_opp);
+            
+            Fill f_incoming;
+            f_incoming.order_id = o.id;
+            f_incoming.px = opp_px;
+            f_incoming.qty = fill_qty;
+            f_incoming.ts = o.ts;
+            f_incoming.buyer_id = (o.side == Side::Buy) ? o.agent_id : opp.agent_id;
+            f_incoming.seller_id = (o.side == Side::Buy) ? opp.agent_id : o.agent_id;
+            fills.push_back(f_incoming);
             
             opp.filled += fill_qty;
             remaining -= fill_qty;

@@ -4,9 +4,9 @@
 #include "exchange.h"
 #include <random>
 
-class MarketMaker : public Agent {
+class MarketE : public Agent {
 public:
-    MarketMaker(int id, Exchange* ex, double spread, uint64_t qty);
+    MarketE(int id, Exchange* ex, double spread, uint64_t qty);
     void on_message(const Message& m) override;
     void step(uint64_t ct) override;
     

@@ -1,11 +1,11 @@
-#include "market_maker.h"
+#include "market_e.h"
 #include "order_book.h"
 
-MarketMaker::MarketMaker(int id, Exchange* ex, double spread, uint64_t qty)
+MarketE::MarketE(int id, Exchange* ex, double spread, uint64_t qty)
     : Agent(id), exch(ex), sprd(spread), sz(qty), gen(id) {
 }
 
-void MarketMaker::on_message(const Message& m) {
+void MarketE::on_message(const Message& m) {
     if (m.type == Message::Fill) {
         if (m.order_id == bid_id || m.order_id == ask_id) {
             bid_id = 0;
@@ -14,7 +14,7 @@ void MarketMaker::on_message(const Message& m) {
     }
 }
 
-void MarketMaker::step(uint64_t ct) {
+void MarketE::step(uint64_t ct) {
     OrderBook& book = exch->get_book();
     double bb = book.best_bid();
     double ba = book.best_ask();
